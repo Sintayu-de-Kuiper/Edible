@@ -1,3 +1,19 @@
+
+# Edible
+## Its better to eat than to be eaten
+
+### Resources
+
+- [Scrum Board](https://trello.com/b/gE5pD1jE/barely-edible)
+- 
+
+
+To add:
+- figma link
+
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
