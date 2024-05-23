@@ -23,6 +23,12 @@ Search for posts and profiles.
 
 Must be logged in.
 
-View display name, posts.
+View display name, posts, followers, following.
 
 Create and delete a post.
+
+### Other Profile
+
+View display name, posts, followers, following.
+
+Follow and unfollow.
