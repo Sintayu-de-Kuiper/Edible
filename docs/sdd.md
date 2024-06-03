@@ -31,4 +31,4 @@ Create and delete a post.
 
 View display name, posts, followers, following.
 
-Follow and unfollow.
+When logged in: Follow and unfollow.
