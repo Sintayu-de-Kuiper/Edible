@@ -1,38 +1,32 @@
 import Image from "next/image";
+import { collection, getDocs } from "@firebase/firestore";
+import { db } from "@/lib/firebase";
 
-export default function Posts() {
-  const posts = [
-    {
-      id: 1,
-      title: "Post 1",
-      description: "This is the first post",
-      image: "/images/1.jpg",
-    },
-    {
-      id: 2,
-      title: "Post 2",
-      description: "This is the second post",
-      image: "/images/2.jpg",
-    },
-    {
-      id: 3,
-      title: "Post 3",
-      description: "This is the third post",
-      image: "/images/3.jpg",
-    },
-  ];
+export default async function Posts() {
+  const querySnapshot = await getDocs(collection(db, "posts"));
+
+  console.log(querySnapshot);
 
   return (
     <div>
       <h1>Posts</h1>
       <ul>
-        {posts.map((post) => (
-          <li key={post.id}>
-            <h2>{post.title}</h2>
-            <p>{post.description}</p>
-            <Image src={post.image} alt={post.title} width={200} height={200} />
-          </li>
-        ))}
+        {querySnapshot.docs.length > 0 ? (
+          querySnapshot.docs.map((post) => (
+            <li key={post.id}>
+              <h1>{post.data().title}</h1>
+              <Image
+                src={post.data().imageUrl}
+                alt={post.data().description}
+                width={640}
+                height={640}
+              />
+              <p>{post.data().description}</p>
+            </li>
+          ))
+        ) : (
+          <li>No posts found</li>
+        )}
       </ul>
     </div>
   );

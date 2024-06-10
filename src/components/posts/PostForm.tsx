@@ -15,6 +15,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { db, storage } from "@/lib/firebase";
+import { addDoc, collection } from "@firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -38,7 +41,27 @@ export default function PostForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {};
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const storageRef = ref(
+        storage,
+        `images/${values.image.name}_${Date.now()}`,
+      );
+      const snapshot = await uploadBytes(storageRef, values.image);
+      const imageUrl = await getDownloadURL(snapshot.ref);
+
+      const docRef = await addDoc(collection(db, "posts"), {
+        title: values.title,
+        description: values.description,
+        imageUrl: imageUrl,
+        createdAt: new Date(),
+      });
+
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
+  };
 
   return (
     <Form {...form}>
