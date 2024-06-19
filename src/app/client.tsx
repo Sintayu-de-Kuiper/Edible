@@ -9,6 +9,7 @@ export default function ClientUser() {
   return (
     <div>
       <h1>Client User</h1>
+      <p>User: {auth?.currentUser?.displayName}</p>
     </div>
   );
 }
