@@ -1,17 +1,20 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import React, { ReactNode } from "react";
+import React from "react";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const RootLayout = ({ children }: { children: ReactNode }) => {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
       <body className={`${inter.className} flex h-screen px-32`}>
-        {children}
+      <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
-};
-
-export default RootLayout;
+}
