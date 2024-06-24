@@ -6,7 +6,7 @@ import Feed from "@/components/feed/Feed";
 // HomePage component renders the main content feed
 const HomePage: React.FC = () => {
   return (
-    <div className={"grid grid-cols-[1fr_2fr_1fr] min-h-screen"}>
+    <main className={"grid grid-cols-[1fr_2fr_1fr] min-h-screen"}>
       {/* Navbar sidebar */}
       <div className="border-r border-gray-200">
         <Navbar />
@@ -19,7 +19,7 @@ const HomePage: React.FC = () => {
       <div className="border-l border-gray-200">
         <Search />
       </div>
-    </div>
+    </main>
   );
 };
 
