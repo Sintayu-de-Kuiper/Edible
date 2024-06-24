@@ -1,5 +1,5 @@
 import Navbar from "@/components/navbar/Navbar";
-import Feed from "@/components/feed/Feed";
+import Search from "@/components/search/Search";
 import React from "react";
 
 const SearchPage = () => {
@@ -11,7 +11,7 @@ const SearchPage = () => {
       </div>
       {/* Main content area */}
       <div className="w-6/12 border-r border-gray-200">
-        <Feed />
+        <Search />
       </div>
     </>
   );
