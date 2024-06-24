@@ -1,13 +1,26 @@
-import Link from "next/link";
-import ClientUser from "./client";
+import React from "react";
+import Navbar from "@/components/navbar/Navbar";
+import Search from "@/components/search/Search";
+import Feed from "@/components/feed/Feed";
 
-export default async function Home() {
+// HomePage component renders the main content feed
+const HomePage: React.FC = () => {
   return (
-    <main className={"flex flex-col items-center gap-10"}>
-      <h1 className={"text-3xl mt-20"}>Home</h1>
-      <Link href={"/sign-in"}>Sign In</Link>
-
-      <ClientUser />
-    </main>
+    <>
+      {/* Navbar sidebar */}
+      <div className="w-3/12 border-r border-gray-200">
+        <Navbar />
+      </div>
+      {/* Main content area */}
+      <div className="w-6/12">
+        <Feed />
+      </div>
+      {/* Search sidebar */}
+      <div className="w-3/12 border-l border-gray-200">
+        <Search />
+      </div>
+    </>
   );
-}
+};
+
+export default HomePage;
