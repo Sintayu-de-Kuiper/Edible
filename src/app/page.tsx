@@ -1,12 +1,26 @@
-import Posts from "@/components/posts/Posts";
-import PostForm from "@/components/posts/PostForm";
+import React from "react";
+import Navbar from "@/components/navbar/Navbar";
+import Search from "@/components/search/Search";
+import Feed from "@/components/feed/Feed";
 
-export default function Home() {
+// HomePage component renders the main content feed
+const HomePage: React.FC = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Homepage</h1>
-      <PostForm />
-      <Posts />
-    </main>
+    <>
+      {/* Navbar sidebar */}
+      <div className="w-3/12 border-r border-gray-200">
+        <Navbar />
+      </div>
+      {/* Main content area */}
+      <div className="w-6/12">
+        <Feed />
+      </div>
+      {/* Search sidebar */}
+      <div className="w-3/12 border-l border-gray-200">
+        <Search />
+      </div>
+    </>
   );
-}
+};
+
+export default HomePage;
