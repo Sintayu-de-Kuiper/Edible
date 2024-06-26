@@ -23,7 +23,7 @@
       "posts": {
         "{postId}": {
           "title": "string",
-          "description": "string",
+          "content": "string",
           "imageUrl": "string",
           "userId": "string",
           "createdAt": "timestamp",
@@ -45,7 +45,6 @@
     }
   }
 }
-
 ```
 
 ## Pages
