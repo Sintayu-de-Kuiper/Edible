@@ -3,7 +3,6 @@ import Navbar from "@/components/navbar/Navbar";
 import Search from "@/components/search/Search";
 import Feed from "@/components/feed/Feed";
 
-// HomePage component renders the main content feed
 const HomePage: React.FC = () => {
   return (
     <>

@@ -1,11 +1,11 @@
 import React from "react";
-import Posts from "@/components/posts/Posts";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@/components/tabs/Tabs";
+import Posts from "@/components/posts/Posts";
 
 const Feed: React.FC = () => {
   return (
@@ -20,9 +20,7 @@ const Feed: React.FC = () => {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="account">
-          <div>
-            <Posts />
-          </div>
+          <Posts />
         </TabsContent>
         <TabsContent value="password">Posts of people you follow.</TabsContent>
       </Tabs>
