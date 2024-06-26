@@ -3,7 +3,6 @@ import Navbar from "@/components/navbar/Navbar";
 import Search from "@/components/search/Search";
 import Feed from "@/components/feed/Feed";
 
-// HomePage component renders the main content feed
 const HomePage: React.FC = () => {
   return (
     <main className={"grid grid-cols-[1fr_2fr_1fr] min-h-screen"}>
@@ -21,6 +20,6 @@ const HomePage: React.FC = () => {
       </div>
     </main>
   );
-};
+}
 
 export default HomePage;
