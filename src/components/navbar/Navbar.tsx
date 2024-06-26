@@ -4,7 +4,7 @@ import Link from "next/link";
 // Navbar component renders the sidebar navigation
 const Navbar: React.FC = () => {
   return (
-    <div className="p-4">
+    <div className="p-4 fixed">
       <h2 className="font-bold text-lg mb-4">Edible</h2>
       <nav>
         <ul className="list-none p-0">

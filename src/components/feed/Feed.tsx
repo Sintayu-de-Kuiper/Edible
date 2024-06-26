@@ -11,7 +11,7 @@ const Feed: React.FC = () => {
   return (
     <div>
       <Tabs defaultValue="account" className="w-1/1">
-        <TabsList className="h-20">
+        <TabsList className="h-16 border">
           <TabsTrigger value="account" className="w-1/2">
             For you
           </TabsTrigger>
@@ -24,7 +24,7 @@ const Feed: React.FC = () => {
             <Posts />
           </div>
         </TabsContent>
-        <TabsContent value="password">Change your password here.</TabsContent>
+        <TabsContent value="password">Posts of people you follow.</TabsContent>
       </Tabs>
     </div>
   );

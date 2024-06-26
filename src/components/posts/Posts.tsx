@@ -9,12 +9,12 @@ export default async function Posts() {
 
   return (
     <div>
-      <h1>Posts</h1>
       <ul>
         {querySnapshot.docs.length > 0 ? (
           querySnapshot.docs.map((post) => (
             <li key={post.id}>
               <Post
+                id={post.data().uid}
                 title={post.data().title}
                 imageURL={post.data().imageUrl}
                 description={post.data().description}
