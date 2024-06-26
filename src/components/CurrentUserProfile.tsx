@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { signOut } from "@/lib/auth";
 import Image from "next/image";
 import SignInForm from "@/components/sign-in/SignInForm";
+import UserPosts from "@/components/profile/UserPosts";
 
 export function CurrentUserProfile() {
   const { currentUser: user } = useAuth();
@@ -51,6 +52,7 @@ export function CurrentUserProfile() {
           </div>
         </div>
       </div>
+      <UserPosts userId={user.uid} />
     </div>
   );
 }
