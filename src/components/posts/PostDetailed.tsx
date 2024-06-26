@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Post } from "@/types";
+import LikeButton from "@/components/posts/LikeButton";
 
 interface PostProps {
   post: Post;
@@ -19,7 +20,7 @@ const PostDetailed = ({ post }: PostProps) => {
       <p className="text-gray-700">{post.content}</p>
 
       <div className={"flex gap-5"}>
-        <p>Likes: {post.likes.length}</p>
+        <LikeButton postId={post.id} likes={post.likes} />
         <p>Comments: {post.comments.length}</p>
       </div>
     </div>
