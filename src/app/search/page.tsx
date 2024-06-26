@@ -4,16 +4,16 @@ import React from "react";
 
 const SearchPage = () => {
   return (
-    <>
+    <main className={"grid grid-cols-[1fr_2fr_1fr] min-h-screen"}>
       {/* Navbar sidebar */}
-      <div className="w-3/12 border-r border-gray-200">
+      <div className="border-r border-gray-200">
         <Navbar />
       </div>
       {/* Main content area */}
-      <div className="w-6/12 border-r border-gray-200">
+      <div>
         <Search />
       </div>
-    </>
+    </main>
   );
 };
 

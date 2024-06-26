@@ -1,7 +1,5 @@
-// src/app/search/Search.tsx
 import React from "react";
 
-// Search component renders the search input
 const Search: React.FC = () => {
   return (
     <div className="p-4 fixed">

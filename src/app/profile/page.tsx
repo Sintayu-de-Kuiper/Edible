@@ -1,11 +1,23 @@
-import Link from "next/link";
+import Navbar from "@/components/navbar/Navbar";
+import Search from "@/components/search/Search";
+import React from "react";
+import { CurrentUserProfile } from "@/components/CurrentUserProfile";
 
-export default async function Profile() {
+export default async function ProfilePage() {
   return (
-    <main className={"flex flex-col items-center gap-10 p-10"}>
-      <h1 className={"text-3xl mt-20"}>Profile page</h1>
-      <p>This is a protected page. You are signed in as</p>
-      <Link href={"/"}>Home</Link>
+    <main className={"grid grid-cols-[1fr_2fr_1fr] min-h-screen"}>
+      {/* Navbar sidebar */}
+      <div className="border-r border-gray-200">
+        <Navbar />
+      </div>
+      {/* Main content area */}
+      <div>
+        <CurrentUserProfile />
+      </div>
+      {/* Search sidebar */}
+      <div className="border-l border-gray-200">
+        <Search />
+      </div>
     </main>
   );
 }
