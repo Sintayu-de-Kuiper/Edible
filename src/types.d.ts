@@ -4,3 +4,11 @@ export interface Post {
   description: string;
   image: string;
 }
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  imageUrl: string;
+  createdAt: Date;
+}
