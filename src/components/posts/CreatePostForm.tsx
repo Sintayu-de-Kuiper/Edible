@@ -31,7 +31,7 @@ const formSchema = z.object({
     }, "Only image files are allowed"),
 });
 
-export default function PostForm() {
+export default function CreatePostForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -104,9 +104,7 @@ export default function PostForm() {
                   placeholder="Picture"
                   type="file"
                   accept="image/*, application/pdf"
-                  onChange={(event) =>
-                    onChange(event.target.files && event.target.files[0])
-                  }
+                  onChange={(event) => onChange(event.target.files?.[0])}
                 />
               </FormControl>
               <FormMessage />

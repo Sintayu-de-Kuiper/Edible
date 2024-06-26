@@ -5,7 +5,7 @@ import { ProfileButton } from "@/components/navbar/ProfileButton";
 // Navbar component renders the sidebar navigation
 const Navbar: React.FC = () => {
   return (
-    <div className="p-4 h-full flex flex-col">
+    <div className="p-4 fixed h-full flex flex-col">
       <h2 className="font-bold text-lg mb-4">Edible</h2>
       <nav className={"flex flex-col justify-between grow"}>
         <ul className="list-none p-0">

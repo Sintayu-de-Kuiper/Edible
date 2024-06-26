@@ -2,7 +2,7 @@ import React from "react";
 
 const Search: React.FC = () => {
   return (
-    <div className="p-4">
+    <div className="p-4 fixed">
       <input
         type="text"
         placeholder="Search"

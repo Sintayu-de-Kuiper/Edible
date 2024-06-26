@@ -1,33 +1,33 @@
-import Image from "next/image";
-import { collection, getDocs } from "@firebase/firestore";
+import { collection, getDocs, orderBy, query } from "@firebase/firestore";
 import { db } from "@/lib/firebase";
+import Post from "@/components/posts/Post";
+import { Post as PostType } from "@/types";
+import Link from "next/link";
 
-export default async function Posts() {
-  const querySnapshot = await getDocs(collection(db, "posts"));
+const Posts = async () => {
+  const postsRef = collection(db, "posts");
+  const q = query(postsRef, orderBy("createdAt", "desc"));
+  const postsSnapshot = await getDocs(q);
 
-  console.log(querySnapshot);
+  const posts: PostType[] = postsSnapshot.docs.map(
+    (doc) =>
+      ({
+        id: doc.id,
+        ...doc.data(),
+        likes: doc.data().likes ?? [],
+        comments: doc.data().comments ?? [],
+      }) as PostType,
+  );
 
   return (
     <div>
-      <h1>Posts</h1>
-      <ul>
-        {querySnapshot.docs.length > 0 ? (
-          querySnapshot.docs.map((post) => (
-            <li key={post.id}>
-              <h1>{post.data().title}</h1>
-              <Image
-                src={post.data().imageUrl}
-                alt={post.data().description}
-                width={640}
-                height={640}
-              />
-              <p>{post.data().description}</p>
-            </li>
-          ))
-        ) : (
-          <li>No posts found</li>
-        )}
-      </ul>
+      {posts.map((post) => (
+        <Link href={`/posts/${post.id}`} key={post.id}>
+          <Post post={post} />
+        </Link>
+      ))}
     </div>
   );
-}
+};
+
+export default Posts;
