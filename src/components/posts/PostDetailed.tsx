@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Comment, Post, User } from "@/types";
 import LikeButton from "@/components/posts/LikeButton";
 import { useAuth } from "@/hooks/useAuth";
@@ -10,6 +10,7 @@ import {
   doc,
   getDoc,
   serverTimestamp,
+  updateDoc,
 } from "@firebase/firestore";
 
 interface PostProps {
@@ -20,12 +21,15 @@ const PostDetailed = ({ post }: PostProps) => {
   const { currentUser } = useAuth();
   const [comments, setComments] = useState<Comment[]>(post.comments);
   const [newComment, setNewComment] = useState<string>("");
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editedTitle, setEditedTitle] = useState<string>(post.title);
+  const [editedContent, setEditedContent] = useState<string>(post.content);
 
   useEffect(() => {
-    // Fetch user details for each comment
+    // Fetch user details for each comment only once
     const fetchCommentUsers = async () => {
       const updatedComments = await Promise.all(
-        comments.map(async (comment) => {
+        post.comments.map(async (comment) => {
           const userDoc = await getDoc(doc(db, "users", comment.id));
           const user = userDoc.exists() ? (userDoc.data() as User) : null;
           return { ...comment, user };
@@ -35,9 +39,9 @@ const PostDetailed = ({ post }: PostProps) => {
     };
 
     fetchCommentUsers();
-  }, [comments]);
+  }, [post.comments]);
 
-  const handleCommentSubmit = async (e: React.FormEvent) => {
+  const handleCommentSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!currentUser) {
@@ -71,17 +75,73 @@ const PostDetailed = ({ post }: PostProps) => {
     }
   };
 
+  const handleEditSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await updateDoc(doc(db, "posts", post.id), {
+        title: editedTitle,
+        content: editedContent,
+      });
+      console.log("Post updated successfully.");
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating post: ", error);
+    }
+  };
+
   return (
     <div className="border-l border-b border-r p-4">
-      <h1 className="font-bold text-2xl">{post.title}</h1>
-      <Image
-        src={post.imageUrl}
-        alt={`${post.title} image`}
-        width={640}
-        height={640}
-        className="border rounded-2xl"
-      />
-      <p className="text-gray-700">{post.content}</p>
+      {isEditing ? (
+        <form onSubmit={handleEditSubmit} className="mb-4">
+          <input
+            type="text"
+            className="w-full border rounded p-2 mb-2"
+            value={editedTitle}
+            onChange={(e) => setEditedTitle(e.target.value)}
+            placeholder="Edit title"
+          />
+          <textarea
+            className="w-full border rounded p-2 mb-2"
+            value={editedContent}
+            onChange={(e) => setEditedContent(e.target.value)}
+            placeholder="Edit content"
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            className="ml-2 bg-gray-500 text-white px-4 py-2 rounded"
+            onClick={() => setIsEditing(false)}
+          >
+            Cancel
+          </button>
+        </form>
+      ) : (
+        <>
+          <h1 className="font-bold text-2xl">{post.title}</h1>
+          <Image
+            src={post.imageUrl}
+            alt={`${post.title} image`}
+            width={640}
+            height={640}
+            className="border rounded-2xl"
+          />
+          <p className="text-gray-700">{post.content}</p>
+          {currentUser?.uid === post.userId && (
+            <button
+              className="bg-yellow-500 text-white px-4 py-2 rounded mt-4"
+              onClick={() => setIsEditing(true)}
+            >
+              Edit Post
+            </button>
+          )}
+        </>
+      )}
 
       <LikeButton postId={post.id} likes={post.likes} />
 
