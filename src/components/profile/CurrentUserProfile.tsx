@@ -6,7 +6,7 @@ import Image from "next/image";
 import SignInForm from "@/components/sign-in/SignInForm";
 import UserPosts from "@/components/profile/UserPosts";
 
-export function CurrentUserProfile() {
+export default function CurrentUserProfile() {
   const { currentUser: user } = useAuth();
 
   if (!user) {

@@ -1,7 +1,7 @@
 import Navbar from "@/components/navbar/Navbar";
 import Search from "@/components/search/Search";
 import React from "react";
-import { CurrentUserProfile } from "@/components/CurrentUserProfile";
+import CurrentUserProfile from "@/components/profile/CurrentUserProfile";
 
 export default async function ProfilePage() {
   return (
