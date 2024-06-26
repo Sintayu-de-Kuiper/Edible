@@ -16,11 +16,6 @@ const Post = ({ post }: PostProps) => {
         height={640}
         className="border rounded-2xl"
       />
-
-      <div className={"flex gap-5"}>
-        <p>Likes: {post.likes.length}</p>
-        <p>Comments: {post.comments.length}</p>
-      </div>
     </div>
   );
 };
