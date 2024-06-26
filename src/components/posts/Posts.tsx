@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { collection, getDocs } from "@firebase/firestore";
 import { db } from "@/lib/firebase";
+import Post from "@/components/post/Post";
 
 export default async function Posts() {
   const querySnapshot = await getDocs(collection(db, "posts"));
@@ -14,14 +14,11 @@ export default async function Posts() {
         {querySnapshot.docs.length > 0 ? (
           querySnapshot.docs.map((post) => (
             <li key={post.id}>
-              <h1>{post.data().title}</h1>
-              <Image
-                src={post.data().imageUrl}
-                alt={post.data().description}
-                width={640}
-                height={640}
+              <Post
+                title={post.data().title}
+                imageURL={post.data().imageUrl}
+                description={post.data().description}
               />
-              <p>{post.data().description}</p>
             </li>
           ))
         ) : (

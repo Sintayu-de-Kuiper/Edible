@@ -1,40 +1,31 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
+import Posts from "@/components/posts/Posts";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/tabs/Tabs";
 
 const Feed: React.FC = () => {
-  const [activeFeed, setActiveFeed] = useState<"foryou" | "following">(
-    "foryou",
-  );
-
   return (
     <div>
-      <div className="bg-white mb-4 border-b">
-        <button
-          className={`px-4 py-4 w-1/2 ${activeFeed === "foryou" ? "bg-black text-white" : "text-black"}`}
-          onClick={() => setActiveFeed("foryou")}
-        >
-          For You
-        </button>
-        <button
-          className={`px-4 py-4 w-1/2 ${activeFeed === "following" ? "bg-black text-white" : "text-black"}`}
-          onClick={() => setActiveFeed("following")}
-        >
-          Following
-        </button>
-      </div>
-      <div>
-        {activeFeed === "foryou" ? (
+      <Tabs defaultValue="account" className="w-1/1">
+        <TabsList className="h-20">
+          <TabsTrigger value="account" className="w-1/2">
+            For you
+          </TabsTrigger>
+          <TabsTrigger value="password" className="w-1/2">
+            Following
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="account">
           <div>
-            {/* For You feed content goes here */}
-            <p>For You feed content...</p>
+            <Posts />
           </div>
-        ) : (
-          <div>
-            {/* Following feed content goes here */}
-            <p>Following feed content...</p>
-          </div>
-        )}
-      </div>
+        </TabsContent>
+        <TabsContent value="password">Change your password here.</TabsContent>
+      </Tabs>
     </div>
   );
 };
