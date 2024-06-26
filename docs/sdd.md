@@ -1,10 +1,51 @@
 # Software Design Document
 
-## Entity Relationship Diagram
+## Firestore Schema
 
-```mermaid
-erDiagram
-Demo
+```json
+{
+  "users": {
+    "{userId}": {
+      "displayName": "string",
+      "imageUrl": "string",
+      "email": "string",
+      "createdAt": "timestamp",
+      "followers": {
+        "{followerId}": {
+          "followedAt": "timestamp"
+        }
+      },
+      "following": {
+        "{followedUserId}": {
+          "followedAt": "timestamp"
+        }
+      },
+      "posts": {
+        "{postId}": {
+          "title": "string",
+          "description": "string",
+          "imageUrl": "string",
+          "userId": "string",
+          "createdAt": "timestamp",
+          "likes": {
+            "{userId}": {
+              "userId": "string",
+              "likedAt": "timestamp"
+            }
+          },
+          "comments": {
+            "{commentId}": {
+              "userId": "string",
+              "content": "string",
+              "createdAt": "timestamp"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 ```
 
 ## Pages
