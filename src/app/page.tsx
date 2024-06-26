@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "@/components/navbar/Navbar";
 import Search from "@/components/search/Search";
-import Feed from "@/components/feed/Feed";
+import Posts from "@/components/posts/Posts";
 
 const HomePage: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const HomePage: React.FC = () => {
       </div>
       {/* Main content area */}
       <div>
-        <Feed />
+        <Posts />
       </div>
       {/* Search sidebar */}
       <div className="border-l border-gray-200">
@@ -20,6 +20,6 @@ const HomePage: React.FC = () => {
       </div>
     </main>
   );
-}
+};
 
 export default HomePage;

@@ -1,9 +1,8 @@
 import Navbar from "@/components/navbar/Navbar";
-import Search from "@/components/search/Search";
 import React from "react";
-import CurrentUserProfile from "@/components/profile/CurrentUserProfile";
+import PostForm from "@/components/create-post/PostForm";
 
-export default async function ProfilePage() {
+const SearchPage = () => {
   return (
     <main className={"grid grid-cols-[1fr_2fr_1fr] min-h-screen"}>
       {/* Navbar sidebar */}
@@ -11,13 +10,11 @@ export default async function ProfilePage() {
         <Navbar />
       </div>
       {/* Main content area */}
-      <div>
-        <CurrentUserProfile />
-      </div>
-      {/* Search sidebar */}
-      <div className="border-l border-gray-200">
-        <Search />
+      <div className={"flex justify-center items-center"}>
+        <PostForm />
       </div>
     </main>
   );
-}
+};
+
+export default SearchPage;

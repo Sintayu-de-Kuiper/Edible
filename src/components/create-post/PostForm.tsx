@@ -18,30 +18,30 @@ import { Textarea } from "@/components/ui/textarea";
 import { db, storage } from "@/lib/firebase";
 import { addDoc, collection } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
+import { CreatePostSchema } from "@/schemas";
+import { useAuth } from "@/hooks/useAuth";
+import SignInForm from "@/components/sign-in/SignInForm";
 
-const formSchema = z.object({
-  title: z.string().min(1, { message: "Title is required" }),
-  description: z.string().min(1, { message: "Description is required" }),
-  image: z
-    .any() // Allow any type initially, we'll validate it manually
-    .refine((file) => {
-      console.log(file);
-
-      return file instanceof File && file.type.startsWith("image/");
-    }, "Only image files are allowed"),
-});
-
-export default function CreatePostForm() {
+export default function PostForm() {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(CreatePostSchema),
     defaultValues: {
       title: "",
-      description: "",
+      content: "",
       image: null,
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const auth = useAuth();
+  if (!auth.currentUser) {
+    return <SignInForm />;
+  }
+
+  async function onSubmit(values: z.infer<typeof CreatePostSchema>) {
+    if (!auth.currentUser) {
+      return;
+    }
+
     try {
       const storageRef = ref(
         storage,
@@ -52,16 +52,17 @@ export default function CreatePostForm() {
 
       const docRef = await addDoc(collection(db, "posts"), {
         title: values.title,
-        description: values.description,
+        content: values.content,
         imageUrl: imageUrl,
         createdAt: new Date(),
+        userId: auth.currentUser.uid,
       });
 
       console.log("Document written with ID: ", docRef.id);
     } catch (error) {
       console.error("Error adding document: ", error);
     }
-  };
+  }
 
   return (
     <Form {...form}>
@@ -81,12 +82,12 @@ export default function CreatePostForm() {
         />
         <FormField
           control={form.control}
-          name="description"
+          name="content"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Content</FormLabel>
               <FormControl>
-                <Textarea placeholder="Description" {...field} />
+                <Textarea placeholder="Content" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

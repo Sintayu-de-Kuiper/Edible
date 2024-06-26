@@ -1,27 +1,10 @@
 "use client";
+
 import { useParams } from "next/navigation";
 import { useQuery } from "react-query";
 import React from "react";
-import { doc, getDoc } from "@firebase/firestore";
-import { db } from "@/lib/firebase";
 import PostDetailed from "@/components/posts/PostDetailed";
-import { Post } from "@/types";
-
-const fetchPost = async (id: string) => {
-  const postRef = doc(db, "posts", id);
-  const postDoc = await getDoc(postRef);
-
-  if (!postDoc.exists()) {
-    throw new Error("No such document!");
-  }
-
-  return {
-    id: postDoc.id,
-    ...postDoc.data(),
-    likes: postDoc.data().likes ?? [],
-    comments: postDoc.data().comments ?? [],
-  } as unknown as Post;
-};
+import { getPost } from "@/utils/getPost";
 
 export default function PostDetailPage() {
   const { id } = useParams();
@@ -33,7 +16,7 @@ export default function PostDetailPage() {
     data: post,
     error,
     isLoading,
-  } = useQuery(["postDetail", id], async () => await fetchPost(id));
+  } = useQuery(["postDetail", id], async () => await getPost(id));
 
   if (isLoading) {
     return <div>Loading...</div>;

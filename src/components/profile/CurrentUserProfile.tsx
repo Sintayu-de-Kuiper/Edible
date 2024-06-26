@@ -1,24 +1,16 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
-import { googleSignIn, signOut } from "@/lib/auth";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { signOut } from "@/lib/auth";
 import Image from "next/image";
+import SignInForm from "@/components/sign-in/SignInForm";
+import UserPosts from "@/components/profile/UserPosts";
 
-export function CurrentUserProfile() {
+export default function CurrentUserProfile() {
   const { currentUser: user } = useAuth();
 
   if (!user) {
-    return (
-      <div className={"flex flex-col gap-5 items-center justify-center"}>
-        <p>You are not logged in</p>
-        <Button onClick={googleSignIn}>Login with Google</Button>
-        <Button>
-          <Link href={"/"}>Return home</Link>
-        </Button>
-      </div>
-    );
+    return <SignInForm />;
   }
 
   return (
@@ -60,6 +52,7 @@ export function CurrentUserProfile() {
           </div>
         </div>
       </div>
+      <UserPosts userId={user.uid} />
     </div>
   );
 }

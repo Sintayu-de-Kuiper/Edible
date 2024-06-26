@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ProfileButton } from "@/components/navbar/ProfileButton";
+import { Button } from "@/components/ui/button";
 
 // Navbar component renders the sidebar navigation
 const Navbar: React.FC = () => {
@@ -8,8 +9,8 @@ const Navbar: React.FC = () => {
     <div className="p-4 fixed h-full flex flex-col">
       <h2 className="font-bold text-lg mb-4">Edible</h2>
       <nav className={"flex flex-col justify-between grow"}>
-        <ul className="list-none p-0">
-          <li className="mb-4">
+        <ul className="list-none p-0 space-y-4">
+          <li>
             <Link
               href={"/"}
               className="flex items-center no-underline text-black"
@@ -45,6 +46,14 @@ const Navbar: React.FC = () => {
                 </svg>
               </span>
               Search
+            </Link>
+          </li>
+          <li>
+            <Link
+              href={"/create-post"}
+              className="flex items-center no-underline"
+            >
+              <Button className={"w-full"}>Post</Button>
             </Link>
           </li>
         </ul>

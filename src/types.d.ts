@@ -18,14 +18,12 @@ export interface Post {
 }
 
 export interface Like {
-  id: string;
-  userId: string;
+  id: string; // Id of the user
   likedAt: Date;
 }
 
 export interface Comment {
-  id: string;
-  userId: string;
+  id: string; // Id of the user
   content: string;
   createdAt: Date;
 }
