@@ -2,6 +2,7 @@ import { collection, getDocs, orderBy, query } from "@firebase/firestore";
 import { db } from "@/lib/firebase";
 import Post from "@/components/posts/Post";
 import { Post as PostType } from "@/types";
+import Link from "next/link";
 
 const Posts = async () => {
   const postsRef = collection(db, "posts");
@@ -21,7 +22,9 @@ const Posts = async () => {
   return (
     <div>
       {posts.map((post) => (
-        <Post key={post.id} post={post} />
+        <Link href={`/posts/${post.id}`} key={post.id}>
+          <Post post={post} />
+        </Link>
       ))}
     </div>
   );
