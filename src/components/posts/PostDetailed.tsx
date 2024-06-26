@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { Comment, Post, User } from "@/types";
@@ -7,11 +9,13 @@ import { db } from "@/lib/firebase";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   serverTimestamp,
   updateDoc,
 } from "@firebase/firestore";
+import { useRouter } from "next/navigation";
 
 interface PostProps {
   post: Post;
@@ -19,6 +23,7 @@ interface PostProps {
 
 const PostDetailed = ({ post }: PostProps) => {
   const { currentUser } = useAuth();
+  const router = useRouter();
   const [comments, setComments] = useState<Comment[]>(post.comments);
   const [newComment, setNewComment] = useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -30,7 +35,7 @@ const PostDetailed = ({ post }: PostProps) => {
     const fetchCommentUsers = async () => {
       const updatedComments = await Promise.all(
         post.comments.map(async (comment) => {
-          const userDoc = await getDoc(doc(db, "users", comment.id));
+          const userDoc = await getDoc(doc(db, "users", comment.userId));
           const user = userDoc.exists() ? (userDoc.data() as User) : null;
           return { ...comment, user };
         }),
@@ -90,6 +95,19 @@ const PostDetailed = ({ post }: PostProps) => {
     }
   };
 
+  const handleDelete = async () => {
+    const confirmation = confirm("Are you sure you want to delete this post?");
+    if (!confirmation) return;
+
+    try {
+      await deleteDoc(doc(db, "posts", post.id));
+      console.log("Post deleted successfully.");
+      router.push("/"); // Redirect to homepage or another page
+    } catch (error) {
+      console.error("Error deleting post: ", error);
+    }
+  };
+
   return (
     <div className="border-l border-b border-r p-4">
       {isEditing ? (
@@ -133,12 +151,20 @@ const PostDetailed = ({ post }: PostProps) => {
           />
           <p className="text-gray-700">{post.content}</p>
           {currentUser?.uid === post.userId && (
-            <button
-              className="bg-yellow-500 text-white px-4 py-2 rounded mt-4"
-              onClick={() => setIsEditing(true)}
-            >
-              Edit Post
-            </button>
+            <div className="flex gap-2 mt-4">
+              <button
+                className="bg-yellow-500 text-white px-4 py-2 rounded"
+                onClick={() => setIsEditing(true)}
+              >
+                Edit Post
+              </button>
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded"
+                onClick={handleDelete}
+              >
+                Delete Post
+              </button>
+            </div>
           )}
         </>
       )}
