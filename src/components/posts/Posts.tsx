@@ -13,6 +13,8 @@ export default async function Posts() {
         {querySnapshot.docs.length > 0 ? (
           querySnapshot.docs.map((post) => (
             <li key={post.id}>
+              {" "}
+              {/* ToDo: Add onClick */}
               <Post
                 id={post.data().uid}
                 title={post.data().title}
