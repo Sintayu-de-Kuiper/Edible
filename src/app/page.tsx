@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "@/components/navbar/Navbar";
-import Search from "@/components/search/Search";
 import Posts from "@/components/posts/Posts";
 
 const HomePage: React.FC = () => {
@@ -13,10 +12,6 @@ const HomePage: React.FC = () => {
       {/* Main content area */}
       <div>
         <Posts />
-      </div>
-      {/* Search sidebar */}
-      <div className="border-l border-gray-200">
-        <Search />
       </div>
     </main>
   );
