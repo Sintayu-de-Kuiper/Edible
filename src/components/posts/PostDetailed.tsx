@@ -12,6 +12,7 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
   serverTimestamp,
   updateDoc,
 } from "@firebase/firestore";
@@ -35,7 +36,7 @@ const PostDetailed = ({ post }: PostProps) => {
     const fetchCommentUsers = async () => {
       const updatedComments = await Promise.all(
         post.comments.map(async (comment) => {
-          const userDoc = await getDoc(doc(db, "users", comment.userId));
+          const userDoc = await getDoc(doc(db, "users", comment.id));
           const user = userDoc.exists() ? (userDoc.data() as User) : null;
           return { ...comment, user };
         }),
@@ -72,6 +73,7 @@ const PostDetailed = ({ post }: PostProps) => {
       );
       const userDoc = await getDoc(doc(db, "users", currentUser.uid));
       const user = userDoc.exists() ? (userDoc.data() as User) : null;
+      // @ts-ignore
       setComments([...comments, { id: commentRef.id, ...commentData, user }]);
       setNewComment("");
       console.log("Comment added successfully.");
@@ -100,8 +102,23 @@ const PostDetailed = ({ post }: PostProps) => {
     if (!confirmation) return;
 
     try {
+      // Delete subcollections (likes and comments)
+      const likesRef = collection(db, `posts/${post.id}/likes`);
+      const commentsRef = collection(db, `posts/${post.id}/comments`);
+
+      const likesSnapshot = await getDocs(likesRef);
+      const commentsSnapshot = await getDocs(commentsRef);
+
+      // Delete all documents in the likes subcollection
+      await Promise.all(likesSnapshot.docs.map((doc) => deleteDoc(doc.ref)));
+
+      // Delete all documents in the comments subcollection
+      await Promise.all(commentsSnapshot.docs.map((doc) => deleteDoc(doc.ref)));
+
+      // Delete the post document
       await deleteDoc(doc(db, "posts", post.id));
-      console.log("Post deleted successfully.");
+
+      console.log("Post and subcollections deleted successfully.");
       router.push("/"); // Redirect to homepage or another page
     } catch (error) {
       console.error("Error deleting post: ", error);
@@ -147,7 +164,7 @@ const PostDetailed = ({ post }: PostProps) => {
             alt={`${post.title} image`}
             width={640}
             height={640}
-            className="border rounded-2xl"
+            className="rounded-lg"
           />
           <p className="text-gray-700">{post.content}</p>
           {currentUser?.uid === post.userId && (
@@ -191,6 +208,7 @@ const PostDetailed = ({ post }: PostProps) => {
           {comments.map((comment) => (
             <div key={comment.id} className="border-t border-gray-300 py-2">
               <p>{comment.content}</p>
+              {/* @ts-ignore */}
               <small>Posted by: {comment.user?.name ?? comment.userId}</small>
             </div>
           ))}

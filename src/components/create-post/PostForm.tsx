@@ -21,6 +21,7 @@ import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { CreatePostSchema } from "@/schemas";
 import { useAuth } from "@/hooks/useAuth";
 import SignInForm from "@/components/sign-in/SignInForm";
+import { useRouter } from "next/navigation";
 
 export default function PostForm() {
   const form = useForm({
@@ -31,6 +32,7 @@ export default function PostForm() {
       image: null,
     },
   });
+  const router = useRouter();
 
   const auth = useAuth();
   if (!auth.currentUser) {
@@ -59,6 +61,8 @@ export default function PostForm() {
       });
 
       console.log("Document written with ID: ", docRef.id);
+
+      router.push(`/posts/${docRef.id}`);
     } catch (error) {
       console.error("Error adding document: ", error);
     }
